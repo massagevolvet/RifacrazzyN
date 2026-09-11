@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>blackwhite.recarga — Pedidos</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#000;color:#f5f5f3;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:960px;margin:auto;padding:26px 16px 60px}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;border-bottom:1px solid #171717;padding-bottom:20px}h1{font-size:28px;letter-spacing:-.04em;margin:0}.sub{color:#707070;font-size:12px;line-height:1.5}.login{max-width:440px;margin:70px auto;border:1px solid #222;border-radius:18px;padding:22px;background:#060606}.login h2{margin:0 0 8px;font-size:22px}.login p{color:#777;font-size:12px}.login input{width:100%;height:52px;border:1px solid #333;border-radius:12px;background:#000;color:#fff;padding:0 14px;outline:none}.login button,.btn{border:0;border-radius:12px;background:#fff;color:#000;padding:12px 14px;font-weight:700;cursor:pointer}.login button{width:100%;margin-top:10px;height:50px}.orders{margin-top:22px}.order{border:1px solid #202020;background:#050505;border-radius:16px;padding:16px;margin:11px 0}.row{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.title{font-size:14px}.muted{color:#686868;font-size:11px;line-height:1.6;margin-top:8px}.paid{color:#aef0c2}.pending{color:#d8c99d}.price{font-size:13px;font-weight:700}.btn:disabled{opacity:.32;cursor:not-allowed}.logout{border:1px solid #292929;background:#080808;color:#aaa;border-radius:10px;padding:9px 11px;cursor:pointer}.hidden{display:none!important}.empty{color:#666;padding:30px 0}.error{color:#ffb5b5;font-size:12px;margin-top:10px}@media(max-width:600px){.top{align-items:flex-start}.top h1{font-size:22px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section id="login" class="login">
+    <h2>Painel de pedidos</h2>
+    <p>Digite sua chave de acesso administrativa.</p>
+    <input id="admin-key" type="password" autocomplete="current-password" placeholder="Chave de acesso">
+    <button id="enter">Entrar</button>
+    <div id="login-error" class="error"></div>
+  </section>
+
+  <section id="panel" class="hidden">
+    <div class="top">
+      <div><h1>blackwhite.recarga</h1><p class="sub">Pedidos pagos ficam aguardando entrega manual até você marcar como entregue.</p></div>
+      <button id="logout" class="logout">Sair</button>
+    </div>
+    <div id="orders" class="orders">Carregando…</div>
+  </section>
+</main>
+<script>
+const login=document.getElementById('login');const panel=document.getElementById('panel');const keyInput=document.getElementById('admin-key');const root=document.getElementById('orders');const loginError=document.getElementById('login-error');
+const money=c=>(Number(c||0)/100).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+let key=sessionStorage.getItem('blackwhite_admin_key')||'';
+async function request(path,opts={}){return fetch(path,{...opts,headers:{...(opts.headers||{}),'x-admin-key':key}})}
+async function load(){const r=await request('/api/admin/orders');const d=await r.json().catch(()=>({}));if(r.status===401){sessionStorage.removeItem('blackwhite_admin_key');key='';panel.classList.add('hidden');login.classList.remove('hidden');loginError.textContent='Chave inválida.';return false;}login.classList.add('hidden');panel.classList.remove('hidden');root.innerHTML='';for(const o of d.orders||[]){const el=document.createElement('section');el.className='order';const paid=o.payment_status==='paid';el.innerHTML='<div class="row"><strong class="title"></strong><span class="status"></span></div><div class="muted meta"></div><div class="row" style="margin-top:12px"><span class="price"></span><button class="btn">Marcar entregue</button></div>';el.querySelector('.title').textContent=o.nickname+' · '+Number(o.diamonds).toLocaleString('pt-BR')+' diamantes';const st=el.querySelector('.status');st.className='status '+(paid?'paid':'pending');st.textContent=paid?'PIX pago':'Pagamento: '+o.payment_status;el.querySelector('.meta').textContent='UID '+o.uid+' · Pedido '+o.id+' · '+new Date(o.created_at).toLocaleString('pt-BR');el.querySelector('.price').textContent=money(o.charged_amount_cents)+(o.first_recharge_discount?' · 30% OFF':'');const b=el.querySelector('button');b.disabled=!paid||o.fulfillment_status==='delivered';b.textContent=o.fulfillment_status==='delivered'?'Entregue ✓':'Marcar entregue';b.onclick=async()=>{b.disabled=true;const rr=await request('/api/admin/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({order_id:o.id})});const dd=await rr.json().catch(()=>({}));if(!rr.ok){alert(dd.message||'Erro');b.disabled=false;return;}load();};root.appendChild(el);}if(!(d.orders||[]).length)root.innerHTML='<div class="empty">Nenhum pedido ainda.</div>';return true;}
+document.getElementById('enter').onclick=async()=>{key=keyInput.value.trim();if(!key)return;sessionStorage.setItem('blackwhite_admin_key',key);loginError.textContent='';await load();};keyInput.addEventListener('keydown',e=>{if(e.key==='Enter')document.getElementById('enter').click()});document.getElementById('logout').onclick=()=>{sessionStorage.removeItem('blackwhite_admin_key');location.reload()};if(key)load();setInterval(()=>{if(key&&!panel.classList.contains('hidden'))load()},15000);
+</script>
+</body>
+</html>
