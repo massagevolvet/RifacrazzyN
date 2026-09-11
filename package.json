@@ -1,8 +1,8 @@
 {
-  "name": "experiencias-massagem-pepper",
-  "version": "1.0.0",
+  "name": "blackwhite-recarga",
   "private": true,
   "type": "module",
-  "scripts": {"start": "node server.js"},
-  "engines": {"node": ">=20"}
+  "dependencies": {
+    "@netlify/blobs": "^11.0.3"
+  }
 }
