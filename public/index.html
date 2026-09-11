@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+  <meta name="description" content="Recarga de diamantes Free Fire pelo ID do jogador. Consulte sua conta, escolha o pacote e pague via PIX em um checkout simples e seguro." />
+  <link rel="canonical" href="https://blackwhite-recarga.netlify.app/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="blackwhite.recarga" />
+  <meta property="og:title" content="Recarga de Diamantes Free Fire via PIX | blackwhite.recarga" />
+  <meta property="og:description" content="Digite seu ID, confirme sua conta e escolha seus diamantes. Pagamento via PIX." />
+  <meta property="og:url" content="https://blackwhite-recarga.netlify.app/" />
+  <title>Recarga de Diamantes Free Fire via PIX | blackwhite.recarga</title>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"blackwhite.recarga",
+    "url":"https://blackwhite-recarga.netlify.app/",
+    "inLanguage":"pt-BR",
+    "description":"Loja independente de recarga de diamantes Free Fire pelo ID com pagamento via PIX."
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+
+  <main class="page">
+    <header class="nav">
+      <a href="#start" class="brand" aria-label="blackwhite.recarga início"><span class="mark">◆</span><span>blackwhite.recarga</span></a>
+      <span class="nav-note">recarga independente</span>
+    </header>
+
+    <section class="intro" id="start">
+      <div class="intro-inner">
+        <p class="eyebrow">COMECE POR AQUI</p>
+        <h1><em>Coloque seu ID.</em></h1>
+        <p class="lead">Vamos localizar sua conta antes de mostrar qualquer outra etapa.</p>
+
+        <div class="id-card">
+          <label for="uid">ID do jogador</label>
+          <div class="id-row">
+            <input id="uid" inputmode="numeric" autocomplete="off" placeholder="Ex.: 1234567890" maxlength="20" aria-describedby="id-help" />
+            <button id="find-player" class="primary" type="button"><span>Continuar</span><span class="arrow">→</span></button>
+          </div>
+          <div class="microcopy" id="id-help"><span>Não pedimos sua senha.</span><span>Servidor BR por padrão.</span></div>
+        </div>
+
+        <div id="player-state" class="player-state hidden" aria-live="polite"></div>
+
+        <div class="scroll-cue" aria-hidden="true"><span></span><small>deslize</small></div>
+      </div>
+    </section>
+
+    <section id="step-packages" class="stage hidden-stage" aria-disabled="true">
+      <div class="stage-head">
+        <div><span class="stage-index">02</span><p>ESCOLHA SUA RECARGA</p></div>
+        <h2>Quantos diamantes<br><em>você quer?</em></h2>
+        <p class="stage-copy">Os valores promocionais abaixo valem para primeira recarga elegível.</p>
+      </div>
+
+      <div class="packages" id="packages">
+        <button class="package" data-diamonds="100" data-price="3.49" data-original="4.99"><span class="diamond">◆</span><strong>100</strong><small>diamantes</small><s>R$ 4,99</s><b>R$ 3,49</b><i>30% OFF</i></button>
+        <button class="package" data-diamonds="310" data-price="9.79" data-original="13.99"><span class="diamond">◆</span><strong>310</strong><small>diamantes</small><s>R$ 13,99</s><b>R$ 9,79</b><i>30% OFF</i></button>
+        <button class="package featured" data-diamonds="520" data-price="16.09" data-original="22.99"><span class="choice">RECOMENDADO</span><span class="diamond">◆</span><strong>520</strong><small>diamantes</small><s>R$ 22,99</s><b>R$ 16,09</b><i>30% OFF</i></button>
+        <button class="package" data-diamonds="1060" data-price="31.49" data-original="44.99"><span class="diamond">◆</span><strong>1.060</strong><small>diamantes</small><s>R$ 44,99</s><b>R$ 31,49</b><i>30% OFF</i></button>
+        <button class="package" data-diamonds="2180" data-price="62.99" data-original="89.99"><span class="diamond">◆</span><strong>2.180</strong><small>diamantes</small><s>R$ 89,99</s><b>R$ 62,99</b><i>30% OFF</i></button>
+        <button class="package" data-diamonds="5600" data-price="153.99" data-original="219.99"><span class="diamond">◆</span><strong>5.600</strong><small>diamantes</small><s>R$ 219,99</s><b>R$ 153,99</b><i>30% OFF</i></button>
+      </div>
+    </section>
+
+    <section id="step-review" class="stage hidden-stage" aria-disabled="true">
+      <div class="stage-head compact">
+        <div><span class="stage-index">03</span><p>FINALIZAR</p></div>
+        <h2>Revise e<br><em>gere seu PIX.</em></h2>
+      </div>
+
+      <div class="checkout-grid">
+        <div class="summary-card">
+          <div><span>Jogador</span><strong id="summary-player">—</strong></div>
+          <div><span>ID</span><strong id="summary-uid">—</strong></div>
+          <div><span>Pacote</span><strong id="summary-pack">—</strong></div>
+          <div><span>Oferta</span><strong id="summary-discount">30% OFF</strong></div>
+          <div class="total"><span>Total no PIX</span><strong id="summary-price">—</strong></div>
+        </div>
+
+        <div class="payer-card">
+          <label for="payer-name">Nome do pagador</label>
+          <input class="field" id="payer-name" autocomplete="name" placeholder="Nome completo" maxlength="100" />
+          <label for="payer-cpf">CPF do pagador</label>
+          <input class="field" id="payer-cpf" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00" maxlength="14" />
+          <p>Usado pelo processador para gerar o PIX. A loja guarda somente um hash para controlar a promoção.</p>
+          <button class="primary full" id="continue-button" disabled><span>Gerar PIX</span><span class="arrow">→</span></button>
+        </div>
+      </div>
+
+      <div id="payment-state" class="payment-state hidden" aria-live="polite"></div>
+      <p class="delivery-note">Após o pagamento, o pedido fica <strong>pago — aguardando entrega manual.</strong></p>
+    </section>
+
+    <section class="confidence" id="how">
+      <span class="stage-index">04</span>
+      <h2>Simples de entender.<br><em>Sem excesso.</em></h2>
+      <div class="confidence-grid">
+        <article><span>01</span><h3>Digite seu ID</h3><p>Localizamos o nickname associado à conta.</p></article>
+        <article><span>02</span><h3>Escolha o pacote</h3><p>Você vê o valor final antes do pagamento.</p></article>
+        <article><span>03</span><h3>Pague via PIX</h3><p>O status muda quando o pagamento é confirmado.</p></article>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-brand"><span class="mark">◆</span><strong>blackwhite.recarga</strong></div>
+      <p>Loja independente. Não afiliada, patrocinada ou operada pela Garena. Free Fire é marca de seus respectivos titulares.</p>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
