@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://blackwhite-recarga.netlify.app/sitemap.xml
